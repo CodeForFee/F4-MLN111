@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import LeaderboardModal from './LeaderboardModal'
+import AIUsageModal from './AIUsageModal'
 import { API_ENDPOINTS } from '../config/api'
 import './ResultScreen.css'
 
 function ResultScreen({ result, questions, onRestart }) {
   const [topResults, setTopResults] = useState([])
   const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [showAIUsage, setShowAIUsage] = useState(false)
 
   useEffect(() => {
     fetchTopResults()
@@ -95,11 +97,22 @@ function ResultScreen({ result, questions, onRestart }) {
         </div>
       </div>
 
+      <button 
+        onClick={() => setShowAIUsage(true)} 
+        className="ai-usage-button"
+      >
+        AI Usage
+      </button>
+
       <LeaderboardModal
         isOpen={showLeaderboard}
         topResults={topResults}
         currentPlayerName={result.playerName}
         onClose={() => setShowLeaderboard(false)}
+      />
+      <AIUsageModal 
+        isOpen={showAIUsage} 
+        onClose={() => setShowAIUsage(false)} 
       />
     </div>
   )

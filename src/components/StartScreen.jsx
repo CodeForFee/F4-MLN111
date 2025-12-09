@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import AIUsageModal from './AIUsageModal'
 import './StartScreen.css'
 
 function StartScreen({ onStart }) {
   const [name, setName] = useState('')
+  const [showAIUsage, setShowAIUsage] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -41,6 +43,16 @@ function StartScreen({ onStart }) {
           </button>
         </form>
       </div>
+      <button 
+        onClick={() => setShowAIUsage(true)} 
+        className="ai-usage-button"
+      >
+        AI Usage
+      </button>
+      <AIUsageModal 
+        isOpen={showAIUsage} 
+        onClose={() => setShowAIUsage(false)} 
+      />
     </div>
   )
 }
