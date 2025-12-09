@@ -1,6 +1,6 @@
 import './LeaderboardModal.css'
 
-function LeaderboardModal({ isOpen, topResults, currentPlayerName, onClose }) {
+function LeaderboardModal({ isOpen, topResults, loading, error, currentPlayerName, onClose, onRefresh }) {
   if (!isOpen) return null
 
   return (
@@ -8,11 +8,27 @@ function LeaderboardModal({ isOpen, topResults, currentPlayerName, onClose }) {
       <div className="leaderboard-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="leaderboard-modal-header">
           <h2 className="leaderboard-modal-title">Bảng xếp hạng Top 5</h2>
-          <button className="leaderboard-modal-close" onClick={onClose}>×</button>
+          <div className="leaderboard-modal-actions">
+            <button 
+              className="leaderboard-modal-refresh" 
+              onClick={onRefresh} 
+              disabled={loading}
+              title="Tải lại dữ liệu"
+            >
+              ↻
+            </button>
+            <button className="leaderboard-modal-close" onClick={onClose}>×</button>
+          </div>
         </div>
         
         <div className="leaderboard-modal-list">
-          {topResults.length > 0 ? (
+          {loading && (
+            <div className="leaderboard-modal-empty">Đang tải...</div>
+          )}
+          {!loading && error && (
+            <div className="leaderboard-modal-empty error">{error}</div>
+          )}
+          {!loading && !error && topResults.length > 0 && (
             topResults.map((result, index) => (
               <div 
                 key={index} 
@@ -26,7 +42,8 @@ function LeaderboardModal({ isOpen, topResults, currentPlayerName, onClose }) {
                 </span>
               </div>
             ))
-          ) : (
+          )}
+          {!loading && !error && topResults.length === 0 && (
             <div className="leaderboard-modal-empty">
               Chưa có kết quả nào
             </div>
@@ -38,4 +55,6 @@ function LeaderboardModal({ isOpen, topResults, currentPlayerName, onClose }) {
 }
 
 export default LeaderboardModal
+
+
 

@@ -10,3 +10,5 @@ export const API_ENDPOINTS = {
   TOP_RESULTS: `${API_BASE_URL}/api/results/top`
 }
 
+
+

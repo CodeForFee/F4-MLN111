@@ -1,16 +1,45 @@
 import { useState } from 'react'
+import LeaderboardModal from './LeaderboardModal'
 import AIUsageModal from './AIUsageModal'
+import { API_ENDPOINTS } from '../config/api'
 import './StartScreen.css'
 
 function StartScreen({ onStart }) {
   const [name, setName] = useState('')
   const [showAIUsage, setShowAIUsage] = useState(false)
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [topResults, setTopResults] = useState([])
+  const [loadingLeaderboard, setLoadingLeaderboard] = useState(false)
+  const [leaderboardError, setLeaderboardError] = useState('')
+
+  const fetchTopResults = async () => {
+    try {
+      setLoadingLeaderboard(true)
+      setLeaderboardError('')
+      const response = await fetch(`${API_ENDPOINTS.TOP_RESULTS}?limit=5`)
+      const data = await response.json()
+      if (data.success) {
+        setTopResults(data.data)
+      } else {
+        setLeaderboardError('Không tải được bảng xếp hạng')
+      }
+    } catch (error) {
+      setLeaderboardError('Không kết nối được server')
+    } finally {
+      setLoadingLeaderboard(false)
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (name.trim()) {
       onStart(name.trim())
     }
+  }
+
+  const openLeaderboard = () => {
+    setShowLeaderboard(true)
+    fetchTopResults()
   }
 
   return (
@@ -42,6 +71,13 @@ function StartScreen({ onStart }) {
             Bắt đầu Quiz
           </button>
         </form>
+        <button 
+          type="button" 
+          className="leaderboard-open-button" 
+          onClick={openLeaderboard}
+        >
+          Xem bảng xếp hạng
+        </button>
       </div>
       <button 
         onClick={() => setShowAIUsage(true)} 
@@ -52,6 +88,15 @@ function StartScreen({ onStart }) {
       <AIUsageModal 
         isOpen={showAIUsage} 
         onClose={() => setShowAIUsage(false)} 
+      />
+      <LeaderboardModal 
+        isOpen={showLeaderboard}
+        topResults={topResults}
+        loading={loadingLeaderboard}
+        error={leaderboardError}
+        currentPlayerName={name.trim()}
+        onRefresh={fetchTopResults}
+        onClose={() => setShowLeaderboard(false)}
       />
     </div>
   )
