@@ -1,0 +1,232 @@
+.leaderboard-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+  padding: var(--spacing-md);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.leaderboard-modal-content {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  box-shadow: var(--shadow-dramatic);
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.leaderboard-modal-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(196, 30, 58, 0.05) 0%, transparent 70%);
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.leaderboard-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.leaderboard-modal-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--color-text-primary);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.leaderboard-modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  color: var(--color-text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.leaderboard-modal-close:hover {
+  background: var(--color-accent-red);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.leaderboard-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-height: calc(80vh - 120px);
+  overflow-y: auto;
+  padding-right: var(--spacing-xs);
+  position: relative;
+  z-index: 1;
+}
+
+.leaderboard-modal-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaderboard-modal-list::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.leaderboard-modal-list::-webkit-scrollbar-thumb {
+  background: var(--color-accent-red);
+  border-radius: 10px;
+}
+
+.leaderboard-modal-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: #fafafa;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  border-left: 4px solid transparent;
+  gap: var(--spacing-md);
+}
+
+.leaderboard-modal-item:hover {
+  transform: translateX(5px);
+  box-shadow: var(--shadow-md);
+}
+
+.leaderboard-modal-item.current-player {
+  background: linear-gradient(135deg, var(--color-accent-red) 0%, #a01a2e 100%);
+  color: white;
+  font-weight: 600;
+  border-left-color: var(--color-accent-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.leaderboard-modal-rank {
+  width: 50px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.leaderboard-modal-name {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-modal-score {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.2rem;
+  min-width: 60px;
+  text-align: right;
+}
+
+.leaderboard-modal-details {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+  min-width: 50px;
+  text-align: right;
+}
+
+.leaderboard-modal-item.current-player .leaderboard-modal-details {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.leaderboard-modal-empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .leaderboard-modal-content {
+    padding: var(--spacing-lg);
+    max-width: 95%;
+  }
+
+  .leaderboard-modal-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .leaderboard-modal-rank {
+    width: 40px;
+    font-size: 1.2rem;
+  }
+
+  .leaderboard-modal-name {
+    font-size: 1rem;
+  }
+
+  .leaderboard-modal-score {
+    font-size: 1rem;
+    min-width: 50px;
+  }
+
+  .leaderboard-modal-details {
+    display: none;
+  }
+}
+
