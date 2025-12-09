@@ -3,9 +3,9 @@ import correct1 from '../assets/memes/correct1.gif'
 import correct2 from '../assets/memes/correct2.gif'
 import correct3 from '../assets/memes/correct3.gif'
 
-import incorrect1 from '../assets/memes/incorrect1.gif'
-import incorrect2 from '../assets/memes/incorrect2.gif'
-import incorrect3 from '../assets/memes/incorrect3.gif'
+import incorrect1 from '../assets/memes/incorrect.gif'
+import incorrect2 from '../assets/memes/wrong.gif'
+import incorrect3 from '../assets/memes/keepitup.gif'
 
 // Danh sách meme đúng
 export const correctMemes = [
